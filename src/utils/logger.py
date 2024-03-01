@@ -1,7 +1,8 @@
 import logging
+import datetime
 
-
-def setup_logger(name, log_file="logs/test01.txt", level=logging.INFO):
+current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+def setup_logger(name, log_file=f"logs/{current_time}.log", level=logging.INFO):
     formatter = logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )

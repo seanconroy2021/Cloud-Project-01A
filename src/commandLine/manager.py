@@ -5,24 +5,25 @@ def run_command(key, ipAddress, command):
     try:
         logger.info(f"Running command: {command}")
         subprocess.run(f"chmod 400 {key}", shell=True)
-        ssh_command = f'ssh -i {key} ec2-user@{ipAddress} -o StrictHostKeyChecking=no {command}'
-        result = subprocess.run(ssh_command, shell=True)
-        logger.info(f"Command result: {result}")
+        ssh_command = f'ssh -i {key} ec2-user@{ipAddress} -o StrictHostKeyChecking=no "{command}"'
+        result = subprocess.run(ssh_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        output_handler(result)
         return result
     except Exception as e:
         log.error(f"Failed to run command: {e}")
         return None
 
-
 def upload_file(key, ipAddress, file):
     try:
         logger.info(f"Uploading file: {file}")
         subprocess.run(f'chmod 400 {key}', shell=True)
-        ssh_command = f'scp -i {key} -o StrictHostKeyChecking=no {file} ec2-user@{ipAddress}:.'
-        result = subprocess.run(ssh_command, shell=True)
+        ssh_command = f'scp -i {key} -o StrictHostKeyChecking=no {file} ec2-user@{ipAddress}:~'
+        result = subprocess.run(ssh_command, shell=True, text=True)
         return result
     except Exception as e:
         log.error(f"Failed to upload file: {e}")
         return None
 
-
+def output_handler(result):
+    output = result.stdout
+    logger.info(f"Command output: {output}")

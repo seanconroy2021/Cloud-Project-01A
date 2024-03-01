@@ -23,10 +23,7 @@ def launch_ec2_instance(instanceName, keyName, secuirtyGroupId,  userData):
                     "Tags": [{"Key": "Name", "Value": f"{instanceName}"}],
                 }
             ],
-            UserData='''#!/bin/bash
-yum update -y && yum install -y httpd && systemctl start httpd && systemctl enable httpd && echo "<h1>Hello World from $(hostname -f)</h1>" > /var/www/html/index.html'''
-        
-
+            UserData=userData,
         )
         print(userData)
         print('aksakskaksaksaksakskasks')
