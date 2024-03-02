@@ -5,29 +5,43 @@ import ec2.manager as ec2
 import s3.manager as s3
 import utils.openBrowser as browser
 
-
-#echo "<html><h1>Hello from ACS</h1></html>" > /var/www/html/index.html
 userData = """#!/bin/bash
 yum update -y
 yum install httpd -y
 systemctl enable httpd
 systemctl start httpd
-
-
-
+TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"`
+echo '<html>' > index.html
+echo 'Private IP address: ' >> index.html
+TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-
+metadata-token-ttl-seconds: 21600"`
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-
+data/local-ipv4 >> index.html
+cp index.html /var/www/html/index.html
 """
 
 userDatabase = """#!/bin/bash
-yum update -y
-echo "[mongodb-org-4.4]
+sudo yum update -y
+
+echo '[mongodb-org-7.0]
 name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
+baseurl=https://repo.mongodb.org/yum/amazon/2023/mongodb-org/7.0/x86_64/
 gpgcheck=1
 enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc" > /etc/yum.repos.d/mongodb-org-4.4.repo
+gpgkey=https://pgp.mongodb.com/server-7.0.asc' > /etc/yum.repos.d/mongodb-org-7.0.repo
+
 yum install -y mongodb-org
-systemctl start mongod
+sleep 30
+
 systemctl enable mongod
+systemctl start mongod
+
+sleep 30
+
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+PUBLIC_DNS_NAME=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-hostname)
+sed -i "s/bindIp: 127.0.0.1/bindIp: $PUBLIC_DNS_NAME/" /etc/mongod.conf
+systemctl restart mongod
 """
 
 website_configuration = {
@@ -36,7 +50,7 @@ website_configuration = {
 }
 
 logger = log.setup_logger(name="APP")
-def launch_monitoring_instance(ip):
+def launch_monitoring_instance(filePath,ip):
         logger.info("Launching Monitoring EC2 Instance...")
         cmd.upload_file(
             key='data/demo.pem',
@@ -52,28 +66,28 @@ def launch_monitoring_instance(ip):
 def launch_ec2_instance_DataBase():
     try:
         logger.info("Launching Database EC2 Instance...")
-        response=ec2.launch_ec2_instance(
+        ip,dns =ec2.launch_ec2_instance(
             instanceName="Ec2_Database(ACS)",
             keyName="demo",
             secuirtyGroupId="sg-032fa0004dc0327c2",
             userData=userDatabase,
         )
-        ip = response
+        browser.wait_for_url(f"http://{dns}:27017", 120, 60)
         launch_monitoring_instance(ip)
     except Exception as e:
         logger.error(f"Failed to launch EC2 instance: {e}")
+
 def launch_ec2_instance():
     try:
         logger.info("Launching Metadata EC2 Instance...")
-        response=ec2.launch_ec2_instance(
+        ip,dns=ec2.launch_ec2_instance(
             instanceName="Ec2_Metadata(ACS)",
             keyName="demo",
             secuirtyGroupId="sg-032fa0004dc0327c2",
             userData=userData,
         )
-        ip = response
         browser.open_browser("Metadata Website", f"http://{ip}")
-        launch_monitoring_instance(ip)
+        launch_monitoring_instance('data/monitoring.sh',ip)
     except Exception as e:
         logger.error(f"Failed to launch EC2 instance: {e}")
 

@@ -28,7 +28,9 @@ def launch_ec2_instance(instanceName, keyName, secuirtyGroupId,  userData):
         )
         logger.info(f"Launched EC2 Instance: {instance[0].id}")
         waiter_status([instance[0].id], "running")
-        return get_public_ip(instance[0].id)
+        ip = get_public_ip(instance[0].id)
+        dns = get_public_dns(instance[0].id)
+        return ip, dns
     except Exception as e:
         logger.error(f"Failed to launch EC2 instance: {e}")
 
@@ -51,6 +53,14 @@ def get_public_ip(id):
         logger.error(f"Failed to get public IP: {e}")
         return None
 
+def get_public_dns(id):
+    try:
+        instance = ec2_resource.Instance(id)
+        logger.info(f"Public DNS: {instance.public_dns_name}")
+        return instance.public_dns_name
+    except Exception as e:
+        logger.error(f"Failed to get public DNS: {e}")
+        return None
 
 def waiter_status(id, state):
     try:

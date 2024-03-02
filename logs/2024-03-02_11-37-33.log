@@ -1,0 +1,19 @@
+2024-03-02 11:37:34,273 - acs_main - INFO - Starting ACS Project
+2024-03-02 11:37:34,273 - APP - INFO - Launching Database EC2 Instance...
+2024-03-02 11:37:34,273 - ec2_manager - INFO - Getting Amazon Linux AMI...
+2024-03-02 11:37:35,950 - ec2_manager - INFO - Launched EC2 Instance: i-0bd3a06231ef16f3a
+2024-03-02 11:37:35,960 - ec2_manager - INFO - Waiting for instance ['i-0bd3a06231ef16f3a'] to be running...
+2024-03-02 11:37:56,745 - ec2_manager - INFO - Instance running successfully.
+2024-03-02 11:37:57,005 - ec2_manager - INFO - Public IP: 44.223.24.56
+2024-03-02 11:37:57,176 - ec2_manager - INFO - Public DNS: ec2-44-223-24-56.compute-1.amazonaws.com
+2024-03-02 11:37:58,313 - Browser Opener - WARNING - URL check failed
+2024-03-02 11:38:58,431 - Browser Opener - WARNING - URL check failed
+2024-03-02 11:39:58,654 - Browser Opener - INFO - URL is accessible
+2024-03-02 11:39:58,656 - APP - INFO - Launching Monitoring EC2 Instance...
+2024-03-02 11:39:58,656 - command line - INFO - Uploading file: data/monitoring.sh
+2024-03-02 11:40:01,301 - command line - INFO - Running command: cd ~/script & chmod +x monitoring.sh && ./monitoring.sh
+2024-03-02 11:40:03,318 - command line - INFO - Command output: Instance ID: i-0bd3a06231ef16f3a
+Memory utilisation: 21.18%
+No of processes: 114
+Web server is NOT running
+
