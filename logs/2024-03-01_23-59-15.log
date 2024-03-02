@@ -1,0 +1,9 @@
+2024-03-01 23:59:15,805 - acs_main - INFO - Starting ACS Project
+2024-03-01 23:59:15,805 - APP - INFO - Launching Metadata EC2 Instance...
+2024-03-01 23:59:15,805 - ec2_manager - INFO - Getting Amazon Linux AMI...
+2024-03-01 23:59:17,520 - ec2_manager - INFO - Launched EC2 Instance: i-0e6cb5f3ae902cf48
+2024-03-01 23:59:17,551 - ec2_manager - INFO - Waiting for instance ['i-0e6cb5f3ae902cf48'] to be running...
+2024-03-01 23:59:58,533 - ec2_manager - ERROR - Error waiting for instance to running: Waiter InstanceRunning failed: Waiter encountered a terminal failure state: For expression "Reservations[].Instances[].State.Name" we matched expected path: "shutting-down" at least once
+2024-03-01 23:59:58,712 - ec2_manager - INFO - Public IP: None
+2024-03-02 00:00:08,751 - Browser Opener - WARNING - URL check failed
+2024-03-02 00:01:18,812 - Browser Opener - WARNING - URL check failed

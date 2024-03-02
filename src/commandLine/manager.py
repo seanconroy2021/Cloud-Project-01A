@@ -18,6 +18,7 @@ def upload_file(key, ipAddress, file):
         logger.info(f"Uploading file: {file}")
         subprocess.run(f'chmod 400 {key}', shell=True)
         ssh_command = f'scp -i {key} -o StrictHostKeyChecking=no {file} ec2-user@{ipAddress}:~'
+        print(ssh_command)
         result = subprocess.run(ssh_command, shell=True, text=True)
         return result
     except Exception as e:

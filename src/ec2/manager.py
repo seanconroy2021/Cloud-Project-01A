@@ -1,3 +1,4 @@
+import time
 import boto3
 
 import utils.logger as log
@@ -25,11 +26,9 @@ def launch_ec2_instance(instanceName, keyName, secuirtyGroupId,  userData):
             ],
             UserData=userData,
         )
-        print(userData)
-        print('aksakskaksaksaksakskasks')
         logger.info(f"Launched EC2 Instance: {instance[0].id}")
-        waiter([instance[0].id], "running")
-        return [instance[0]]
+        waiter_status([instance[0].id], "running")
+        return get_public_ip(instance[0].id)
     except Exception as e:
         logger.error(f"Failed to launch EC2 instance: {e}")
 
@@ -53,11 +52,11 @@ def get_public_ip(id):
         return None
 
 
-def waiter(id, state):
+def waiter_status(id, state):
     try:
         waiter = ec2_client.get_waiter(f"instance_{state}")
         logger.info(f"Waiting for instance {id} to be {state}...")
-        waiter.wait(InstanceIds=id)
+        waiter.wait(InstanceIds=id, WaiterConfig={"Delay": 20, "MaxAttempts": 20})
         logger.info(f"Instance {state} successfully.")
     except Exception as e:
         logger.error(f"Error waiting for instance to {state}: {e}")

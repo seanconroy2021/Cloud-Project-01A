@@ -1,0 +1,20 @@
+2024-03-02 00:01:43,437 - acs_main - INFO - Starting ACS Project
+2024-03-02 00:01:43,437 - APP - INFO - Launching Metadata EC2 Instance...
+2024-03-02 00:01:43,437 - ec2_manager - INFO - Getting Amazon Linux AMI...
+2024-03-02 00:01:45,026 - ec2_manager - INFO - Launched EC2 Instance: i-0b3131608fcb252e3
+2024-03-02 00:01:45,042 - ec2_manager - INFO - Waiting for instance ['i-0b3131608fcb252e3'] to be running...
+2024-03-02 00:02:26,041 - ec2_manager - INFO - Instance running successfully.
+2024-03-02 00:02:26,327 - ec2_manager - INFO - Public IP: 52.90.228.150
+2024-03-02 00:02:26,435 - Browser Opener - WARNING - URL check failed
+2024-03-02 00:03:26,665 - Browser Opener - INFO - URL is accessible
+2024-03-02 00:03:26,666 - Browser Opener - INFO - Opened browser to Metadata Website: http://52.90.228.150
+2024-03-02 00:03:27,783 - s3 Manager - INFO - Created bucket: ococey-sconroy
+2024-03-02 00:03:28,541 - s3 Manager - INFO - Uploaded file: data/image.jpeg to bucket: ococey-sconroy
+2024-03-02 00:03:28,779 - s3 Manager - INFO - Uploaded file: data/index.html to bucket: ococey-sconroy
+2024-03-02 00:03:28,943 - s3 Manager - INFO - Deleted public access block: ococey-sconroy
+2024-03-02 00:03:29,183 - s3 Manager - INFO - Added policy to bucket: ococey-sconroy
+2024-03-02 00:03:29,342 - s3 Manager - INFO - Configured website: ococey-sconroy
+2024-03-02 00:03:29,656 - Browser Opener - INFO - URL is accessible
+2024-03-02 00:03:29,656 - Browser Opener - INFO - Opened browser to S3 Website: http://ococey-sconroy.s3-website-us-east-1.amazonaws.com
+2024-03-02 00:03:29,895 - APP - INFO - Launching Monitoring EC2 Instance...
+2024-03-02 00:03:29,895 - command line - INFO - Uploading file: data/monitoring.sh

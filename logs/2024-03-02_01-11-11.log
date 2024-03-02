@@ -1,0 +1,3 @@
+2024-03-02 01:11:11,614 - acs_main - INFO - Starting ACS Project
+2024-03-02 01:11:11,614 - APP - INFO - Launching Database EC2 Instance...
+2024-03-02 01:11:11,614 - APP - ERROR - Failed to launch EC2 instance: name 'datbaseData' is not defined
