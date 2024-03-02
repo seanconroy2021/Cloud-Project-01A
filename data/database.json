@@ -1,0 +1,14 @@
+[
+    { "name": "Carlow", "population": "111", "area": "1 km" },
+    { "name": "Dublin", "population": "1234", "area": "500 km" },
+    { "name": "Kildare", "population": "234", "area": "50 km" },
+    { "name": "Kilkenny", "population": "345", "area": "40 km" },
+    { "name": "Laois", "population": "456", "area": "60 km" },
+    { "name": "Louth", "population": "222", "area": "10 km" },
+    { "name": "Meath", "population": "333", "area": "20 km" },
+    { "name": "Offaly", "population": "444", "area": "30 km" },
+    { "name": "Westmeath", "population": "555", "area": "100 km" },
+    { "name": "Wexford", "population": "666", "area": "200 km" },
+    { "name": "Wicklow", "population": "777", "area": "400 km" }
+]
+  

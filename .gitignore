@@ -1,0 +1,9 @@
+# Ignore specific file types in the data directory
+data/*.pem
+data/url.txt
+data/*.jpeg
+data/setupConfig.json
+*.logs
+__pycache__/
+.vscode/
+.DS_Store
