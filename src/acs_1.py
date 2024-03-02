@@ -124,8 +124,10 @@ def launch_ec2_instance_DataBase(secuirtyGroupId, keyName):
             secuirtyGroupId=secuirtyGroupId,
             userData=userDatabase,
         )
-        browser.wait_for_url(f"http://{dns}:27017", 120, 60)
+        browser.open_browser("Datbase Link:", f"http://{dns}:27017")
         add_data_to_database(ip, dns, keyName)
+        command = f'mongosh "mongodb://{dns}/irelandCounties" --eval "printjson(db.counties.find().toArray())"'
+        cmd.run_local_command(command)
         launch_monitoring_instance_metadata(ip, keyName)
     except Exception as e:
         logger.error(f"Failed to launch EC2 instance: {e}")
@@ -173,6 +175,7 @@ def main():
     launch_ec2_instance_DataBase(secuirtyGroupId, keyName)
     launch_S3_bucket()
     logger.info("ACS Project Completed")
+
 
 if __name__ == "__main__":
     main()

@@ -3,7 +3,7 @@ import string
 
 import utils.logger as log
 
-logger = log.setup_logger(name="Random Nam Creator")
+logger = log.setup_logger(name="Random Name Creator")
 
 
 def randomName(name):
