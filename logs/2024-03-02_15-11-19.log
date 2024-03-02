@@ -1,0 +1,26 @@
+2024-03-02 15:11:20,239 - acs_main - INFO - Starting ACS Project
+2024-03-02 15:11:20,239 - command line - INFO - Running local command: aws iam list-users
+2024-03-02 15:11:21,548 - command line - INFO - Command output: {
+    "Users": []
+}
+
+2024-03-02 15:11:21,549 - Initial Setup (only run once) - INFO - AWS is working
+2024-03-02 15:11:21,549 - Initial Setup (only run once) - INFO - Configuration file not found, proceeding with setup...
+2024-03-02 15:11:21,550 - Initial Setup (only run once) - ERROR - Failed to setup security group : cannot access local variable 'randomName' where it is not associated with a value
+2024-03-02 15:11:21,550 - Initial Setup (only run once) - ERROR - Failed to setup key pair: cannot access local variable 'randomName' where it is not associated with a value
+2024-03-02 15:11:21,550 - Initial Setup (only run once) - INFO - Setup complete.
+2024-03-02 15:11:21,551 - APP - INFO - Launching Metadata EC2 Instance...
+2024-03-02 15:11:21,551 - ec2 Manager - INFO - Getting Amazon Linux AMI...
+2024-03-02 15:11:21,556 - ec2 Manager - ERROR - Failed to launch EC2 instance: Parameter validation failed:
+Invalid type for parameter KeyName, value: None, type: <class 'NoneType'>, valid types: <class 'str'>
+Invalid type for parameter SecurityGroupIds[0], value: None, type: <class 'NoneType'>, valid types: <class 'str'>
+2024-03-02 15:11:21,557 - APP - ERROR - Failed to launch EC2 instance: cannot unpack non-iterable NoneType object
+2024-03-02 15:11:22,117 - s3 Manager - INFO - Created bucket: rkv9ya-scronoybucket
+2024-03-02 15:11:22,859 - s3 Manager - INFO - Uploaded file: data/image.jpeg to bucket: rkv9ya-scronoybucket
+2024-03-02 15:11:23,091 - s3 Manager - INFO - Uploaded file: data/index.html to bucket: rkv9ya-scronoybucket
+2024-03-02 15:11:23,264 - s3 Manager - INFO - Deleted public access block: rkv9ya-scronoybucket
+2024-03-02 15:11:23,473 - s3 Manager - INFO - Added policy to bucket: rkv9ya-scronoybucket
+2024-03-02 15:11:23,627 - s3 Manager - INFO - Configured website: rkv9ya-scronoybucket
+2024-03-02 15:11:24,420 - Browser Opener - INFO - URL is accessible
+2024-03-02 15:11:24,420 - Browser Opener - INFO - Opened browser to S3 Website: http://rkv9ya-scronoybucket.s3-website-us-east-1.amazonaws.com
+2024-03-02 15:11:25,538 - Browser Opener - INFO - URL written to file: data/url.txt

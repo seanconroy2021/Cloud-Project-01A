@@ -7,7 +7,7 @@ logger = log.setup_logger(name="Browser Opener")
 
 def open_browser(name,url):
     try:
-        wait_for_url(url, 120, 60)
+        wait_for_url(url, 120, 40)
         logger.info(f"Opened browser to {name}: {url}")
         webbrowser.open(url)
         write_Url_to_file(name,url)
@@ -19,6 +19,7 @@ def wait_for_url(url, amount, sleep):
     start_time = time.time()
     while True:
         try:
+            logger.info(f"Checking URL: {url}")
             response = requests.get(url)
             if response.status_code == 200:
                 logger.info("URL is accessible")
@@ -34,8 +35,8 @@ def wait_for_url(url, amount, sleep):
 def write_Url_to_file(name,url):
     try:
         filename = "data/url.txt"
-        with open (filename, 'w') as file:
-            file.write(f"{name} : {url}")
+        with open (filename, 'a') as file:
+            file.write(f"{name} : {url}\n")
             logger.info(f"URL written to file: {filename}")
     except Exception as e:
         logger.error(f"Failed to write URL to file: {e}")

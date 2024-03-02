@@ -1,0 +1,57 @@
+2024-03-02 15:41:50,777 - acs_main - INFO - Starting ACS Project
+2024-03-02 15:41:50,777 - command line - INFO - Running local command: aws iam list-users
+2024-03-02 15:41:51,824 - command line - INFO - Command output: {
+    "Users": []
+}
+
+2024-03-02 15:41:51,824 - Initial Setup (only run once) - INFO - AWS is working
+2024-03-02 15:41:51,825 - Initial Setup (only run once) - INFO - Configuration file exists, loading configuration...
+2024-03-02 15:41:51,827 - Initial Setup (only run once) - INFO - Configuration loaded successfully.
+2024-03-02 15:41:51,827 - APP - INFO - Launching Metadata EC2 Instance...
+2024-03-02 15:41:51,827 - ec2 Manager - INFO - Getting Amazon Linux AMI...
+2024-03-02 15:41:53,961 - ec2 Manager - INFO - Launched EC2 Instance: i-054bb98facf189055
+2024-03-02 15:41:53,976 - ec2 Manager - INFO - Waiting for instance ['i-054bb98facf189055'] to be running...
+2024-03-02 15:42:35,033 - ec2 Manager - INFO - Instance running successfully.
+2024-03-02 15:42:35,284 - ec2 Manager - INFO - Public IP: 23.20.123.192
+2024-03-02 15:42:35,457 - ec2 Manager - INFO - Public DNS: ec2-23-20-123-192.compute-1.amazonaws.com
+2024-03-02 15:42:35,457 - Browser Opener - INFO - Checking URL: http://23.20.123.192
+2024-03-02 15:42:35,608 - Browser Opener - WARNING - URL check failed
+2024-03-02 15:43:15,611 - Browser Opener - INFO - Checking URL: http://23.20.123.192
+2024-03-02 15:43:15,853 - Browser Opener - INFO - URL is accessible
+2024-03-02 15:43:15,853 - Browser Opener - INFO - Opened browser to Metadata Website: http://23.20.123.192
+2024-03-02 15:43:16,438 - Browser Opener - INFO - URL written to file: data/url.txt
+2024-03-02 15:43:16,438 - APP - INFO - Launching Monitoring EC2 Instance MetaData...
+2024-03-02 15:43:16,439 - command line - INFO - Uploading file: data/monitoring.sh
+2024-03-02 15:43:18,973 - command line - INFO - Running command: chmod +x monitoring.sh && ./monitoring.sh
+2024-03-02 15:43:20,519 - command line - INFO - Command output: Instance ID: i-054bb98facf189055
+Memory utilisation: 16.33%
+No of processes: 118
+Web server is running
+
+2024-03-02 15:43:20,519 - APP - INFO - Launching Database EC2 Instance...
+2024-03-02 15:43:20,520 - ec2 Manager - INFO - Getting Amazon Linux AMI...
+2024-03-02 15:43:22,653 - ec2 Manager - INFO - Launched EC2 Instance: i-0d85aee347f0778b7
+2024-03-02 15:43:22,654 - ec2 Manager - INFO - Waiting for instance ['i-0d85aee347f0778b7'] to be running...
+2024-03-02 15:43:43,134 - ec2 Manager - INFO - Instance running successfully.
+2024-03-02 15:43:43,314 - ec2 Manager - INFO - Public IP: 34.224.57.254
+2024-03-02 15:43:43,731 - ec2 Manager - INFO - Public DNS: ec2-34-224-57-254.compute-1.amazonaws.com
+2024-03-02 15:43:43,732 - Browser Opener - INFO - Checking URL: http://ec2-34-224-57-254.compute-1.amazonaws.com:27017
+2024-03-02 15:43:54,885 - Browser Opener - WARNING - URL check failed
+2024-03-02 15:44:54,922 - Browser Opener - INFO - Checking URL: http://ec2-34-224-57-254.compute-1.amazonaws.com:27017
+2024-03-02 15:44:55,089 - Browser Opener - WARNING - URL check failed
+2024-03-02 15:45:55,107 - Browser Opener - INFO - Checking URL: http://ec2-34-224-57-254.compute-1.amazonaws.com:27017
+2024-03-02 15:45:55,365 - Browser Opener - INFO - URL is accessible
+2024-03-02 15:45:55,365 - APP - INFO - Adding data to Database...
+2024-03-02 15:45:55,366 - command line - INFO - Uploading file: data/database.json
+2024-03-02 15:45:57,853 - command line - INFO - Running command: mongoimport --host ec2-34-224-57-254.compute-1.amazonaws.com --db irelandCounties --collection counties --file database.json --jsonArray
+2024-03-02 15:45:59,297 - command line - INFO - Command output: 
+2024-03-02 15:45:59,899 - s3 Manager - INFO - Created bucket: 7b7don-scronoybucket
+2024-03-02 15:46:00,635 - s3 Manager - INFO - Uploaded file: data/image.jpeg to bucket: 7b7don-scronoybucket
+2024-03-02 15:46:00,869 - s3 Manager - INFO - Uploaded file: data/index.html to bucket: 7b7don-scronoybucket
+2024-03-02 15:46:01,037 - s3 Manager - INFO - Deleted public access block: 7b7don-scronoybucket
+2024-03-02 15:46:01,315 - s3 Manager - INFO - Added policy to bucket: 7b7don-scronoybucket
+2024-03-02 15:46:01,478 - s3 Manager - INFO - Configured website: 7b7don-scronoybucket
+2024-03-02 15:46:01,479 - Browser Opener - INFO - Checking URL: http://7b7don-scronoybucket.s3-website-us-east-1.amazonaws.com
+2024-03-02 15:46:01,778 - Browser Opener - INFO - URL is accessible
+2024-03-02 15:46:01,778 - Browser Opener - INFO - Opened browser to S3 Website: http://7b7don-scronoybucket.s3-website-us-east-1.amazonaws.com
+2024-03-02 15:46:02,399 - Browser Opener - INFO - URL written to file: data/url.txt

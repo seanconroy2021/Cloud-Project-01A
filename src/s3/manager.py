@@ -1,25 +1,15 @@
-import random
-import string
 import json 
 import boto3
 import utils.logger as log
+import utils.randomName as randomName
 
 logger = log.setup_logger(name="s3 Manager")
 s3_client = boto3.client("s3")
 s3_resource = boto3.resource("s3")
 
-
-def random_bucket_name(bucketName):
-    randomChars = "".join(
-        random.choice(string.ascii_lowercase + string.digits) for _ in range(6)
-    )
-    randomName = f"{randomChars}-{bucketName.lower()}"
-    return randomName
-
-
 def create_s3_bucket(bucketName):
     try:
-        bucketName = random_bucket_name(bucketName)
+        bucketName = randomName.randomName(bucketName)
         s3_client.create_bucket(Bucket=bucketName)
         logger.info(f"Created bucket: {bucketName}")
         return bucketName

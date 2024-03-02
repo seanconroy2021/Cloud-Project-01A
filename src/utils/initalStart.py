@@ -1,5 +1,7 @@
 import json
 import security.manager as security
+import commandLine.manager as cmd
+import utils.randomName as randomName
 import utils.logger as log
 import os
 logger = log.setup_logger(name="Initial Setup (only run once)")
@@ -31,34 +33,44 @@ outbound=[
             'IpRanges': [{'CidrIp': '0.0.0.0/0'}]
         }
     ]
-
 def setup_security_group():
     try :
+        name = randomName.randomName("SconroySecurityGroup")
         id = security.create_security_group(
-            group_name="SConroyGroup12",
-            description="ACS Security Group",
+            group_name=name,
+            description="Sconroy Security Group",
             inboundRules=inbound,
             outboundRules=outbound
         )
-        logger.info(f"Security group created id: {id}")
+        logger.info(f"Security group created id: {id} name: {name}")
         return id
     except Exception as e:
         logger.error(f"Failed to setup security group : {e}")
 
 def setup_key_pair():
     try:
-        config_file = "setupConfig.json"
-        keyName = security.create_key_pair("SConroyKey")
+        name = randomName.randomName("sconroyKey")
+        keyName = security.create_key_pair(name)
         logger.info(f"Key pair created in data/{keyName}.pem")
         return keyName
     except Exception as e:
         logger.error(f"Failed to setup key pair: {e}")
 
+def check_aws_working():
+    response = cmd.run_local_command('aws iam list-users')
+    if response.returncode == 0:
+        logger.info("AWS is working")
+    else:
+        logger.error("AWS is not working")
+        logger.info("Please make sure you have AWS (BOTO3) installed and configured.")
+        exit(1)
+
 def setup():
-    config_file = "data/setupConfig.json"
-    if os.path.exists(config_file):
+    check_aws_working()
+    configFile = "data/setupConfig.json"
+    if os.path.exists(configFile):
         logger.info("Configuration file exists, loading configuration...")
-        with open(config_file, 'r') as file:
+        with open(configFile, 'r') as file:
             config = json.load(file)
             securityId = config.get('securityId')
             keyName = config.get('keyName')
@@ -72,7 +84,7 @@ def setup():
             'securityId': securityId,
             'keyName': keyName
         }
-        with open(config_file, 'w') as file:
+        with open(configFile, 'w') as file:
             json.dump(config, file, indent=4)
         logger.info("Setup complete.")
         return securityId, keyName

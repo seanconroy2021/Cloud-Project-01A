@@ -1,0 +1,23 @@
+2024-03-02 15:16:29,705 - acs_main - INFO - Starting ACS Project
+2024-03-02 15:16:29,705 - command line - INFO - Running local command: aws iam list-users
+2024-03-02 15:16:30,889 - command line - INFO - Command output: {
+    "Users": []
+}
+
+2024-03-02 15:16:30,890 - Initial Setup (only run once) - INFO - AWS is working
+2024-03-02 15:16:30,890 - Initial Setup (only run once) - INFO - Configuration file not found, proceeding with setup...
+2024-03-02 15:16:32,079 - Security_manager - INFO - Added rules to security group: sg-0e262eb77f3085dac
+2024-03-02 15:16:32,426 - Security_manager - INFO - Added rules to security group: sg-0e262eb77f3085dac
+2024-03-02 15:16:32,426 - Security_manager - INFO - Created security group: sg-0e262eb77f3085dac
+2024-03-02 15:16:32,426 - Initial Setup (only run once) - INFO - Security group created id: sg-0e262eb77f3085dac name: <module 'utils.randomName' from '/Users/seanconroy/college_repo/Cloud2024ACS_01/src/utils/randomName.py'>
+2024-03-02 15:16:32,667 - Security_manager - INFO - Created key pair: g385tk-sconroykey
+2024-03-02 15:16:32,667 - Initial Setup (only run once) - INFO - Key pair created in data/g385tk-sconroykey.pem
+2024-03-02 15:16:32,668 - Initial Setup (only run once) - INFO - Setup complete.
+2024-03-02 15:16:32,668 - APP - INFO - Launching Metadata EC2 Instance...
+2024-03-02 15:16:32,668 - ec2 Manager - INFO - Getting Amazon Linux AMI...
+2024-03-02 15:16:34,383 - ec2 Manager - INFO - Launched EC2 Instance: i-0c2a7ec7064402b8a
+2024-03-02 15:16:34,392 - ec2 Manager - INFO - Waiting for instance ['i-0c2a7ec7064402b8a'] to be running...
+2024-03-02 15:17:15,429 - ec2 Manager - ERROR - Error waiting for instance to running: Waiter InstanceRunning failed: Waiter encountered a terminal failure state: For expression "Reservations[].Instances[].State.Name" we matched expected path: "shutting-down" at least once
+2024-03-02 15:17:15,703 - ec2 Manager - INFO - Public IP: 3.88.142.185
+2024-03-02 15:17:15,938 - ec2 Manager - INFO - Public DNS: ec2-3-88-142-185.compute-1.amazonaws.com
+2024-03-02 15:18:31,104 - Browser Opener - WARNING - URL check failed

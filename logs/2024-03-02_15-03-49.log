@@ -1,0 +1,19 @@
+2024-03-02 15:03:49,667 - acs_main - INFO - Starting ACS Project
+2024-03-02 15:03:49,667 - command line - INFO - Running local command: aws iam list-users
+2024-03-02 15:03:50,730 - command line - INFO - Command output: {
+    "Users": []
+}
+
+2024-03-02 15:03:50,731 - Initial Setup (only run once) - INFO - AWS is working
+2024-03-02 15:03:50,731 - Initial Setup (only run once) - INFO - Configuration file not found, proceeding with setup...
+2024-03-02 15:03:51,351 - Security_manager - ERROR - Failed to create security group: An error occurred (InvalidGroup.Duplicate) when calling the CreateSecurityGroup operation: The security group 'SConroyGroup12' already exists for VPC 'vpc-08641a7b899f68ea3'
+2024-03-02 15:03:51,352 - Initial Setup (only run once) - INFO - Security group created id: None
+2024-03-02 15:03:51,845 - Security_manager - ERROR - Failed to create key pair: An error occurred (InvalidKeyPair.Duplicate) when calling the CreateKeyPair operation: The keypair already exists
+2024-03-02 15:03:51,845 - Initial Setup (only run once) - INFO - Key pair created in data/None.pem
+2024-03-02 15:03:51,846 - Initial Setup (only run once) - INFO - Setup complete.
+2024-03-02 15:03:51,846 - APP - INFO - Launching Metadata EC2 Instance...
+2024-03-02 15:03:51,846 - ec2 Manager - INFO - Getting Amazon Linux AMI...
+2024-03-02 15:03:51,847 - ec2 Manager - ERROR - Failed to launch EC2 instance: Parameter validation failed:
+Invalid type for parameter KeyName, value: None, type: <class 'NoneType'>, valid types: <class 'str'>
+Invalid type for parameter SecurityGroupIds[0], value: None, type: <class 'NoneType'>, valid types: <class 'str'>
+2024-03-02 15:03:51,847 - APP - ERROR - Failed to launch EC2 instance: cannot unpack non-iterable NoneType object

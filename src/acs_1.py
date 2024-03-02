@@ -6,7 +6,7 @@ import s3.manager as s3
 import utils.openBrowser as browser
 import utils.initalStart as start
 
-userData = """#!/bin/bash
+userData = '''#!/bin/bash
 yum update -y
 yum install httpd -y
 systemctl enable httpd
@@ -19,9 +19,9 @@ metadata-token-ttl-seconds: 21600"`
 curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-
 data/local-ipv4 >> index.html
 cp index.html /var/www/html/index.html
-"""
+'''
 
-userDatabase = """#!/bin/bash
+userDatabase = '''#!/bin/bash
 sudo yum update -y
 
 echo '[mongodb-org-7.0]
@@ -43,7 +43,7 @@ TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-meta
 PUBLIC_DNS_NAME=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-hostname)
 sed -i "s/bindIp: 127.0.0.1/bindIp: $PUBLIC_DNS_NAME/" /etc/mongod.conf
 systemctl restart mongod
-"""
+'''
 
 websiteConfiguration = {
     "IndexDocument": {"Suffix": "index.html"},
@@ -51,29 +51,29 @@ websiteConfiguration = {
 }
 
 logger = log.setup_logger(name="APP")
-def launch_monitoring_instance_metadata(ip):
+def launch_monitoring_instance_metadata(ip,keyName):
         logger.info("Launching Monitoring EC2 Instance MetaData...")
         cmd.upload_file(
-            key='data/demo.pem',
+            key=f'data/{keyName}.pem',
             ipAddress=ip,
             file="data/monitoring.sh"
         )
         cmd.run_command(
-            key="data/demo.pem",
+            key=f'data/{keyName}.pem',
             ipAddress=ip,
             command='chmod +x monitoring.sh && ./monitoring.sh'
         )
 
-def add_data_to_database(ip, dns):
+def add_data_to_database(ip, dns,keyName):
     logger.info("Adding data to Database...")
     cmd.upload_file(
-        key='data/demo.pem',
+        key=f'data/{keyName}.pem',
         ipAddress=ip,
         file="data/database.json"
     )
     command = f"mongoimport --host {dns} --db irelandCounties --collection counties --file database.json --jsonArray"
     cmd.run_command(
-        key="data/demo.pem",
+        key=f'data/{keyName}.pem',
         ipAddress=ip,
         command=command
     )
@@ -88,7 +88,7 @@ def launch_ec2_instance_DataBase(secuirtyGroupId, keyName):
             userData=userDatabase,
         )
         browser.wait_for_url(f"http://{dns}:27017", 120, 60)
-        add_data_to_database(ip, dns)
+        add_data_to_database(ip, dns,keyName)
     except Exception as e:
         logger.error(f"Failed to launch EC2 instance: {e}")
 
@@ -102,13 +102,12 @@ def launch_ec2_instance(secuirtyGroupId, keyName):
             userData=userData,
         )
         browser.open_browser("Metadata Website", f"http://{ip}")
-        launch_monitoring_instance_metadata(ip)
+        launch_monitoring_instance_metadata(ip,keyName)
     except Exception as e:
         logger.error(f"Failed to launch EC2 instance: {e}")
 
-
 def launch_S3_bucket():
-    bucketName=s3.create_s3_bucket("sConroy")
+    bucketName=s3.create_s3_bucket("ScronoyBucket")
     urllib.request.urlretrieve('https://setuacsresources.s3-eu-west-1.amazonaws.com/image.jpeg', 'data/image.jpeg')
     s3.upload_file_to_bucket(bucketName, "data/image.jpeg", "image/jpeg")
     s3.upload_file_to_bucket(bucketName, "data/index.html", "text/html")
@@ -117,17 +116,14 @@ def launch_S3_bucket():
     browser.open_browser("S3 Website", f"http://{bucketName}.s3-website-us-east-1.amazonaws.com")
 
 def main():
-    logger = log.setup_logger(name="acs_main")
-    logger.info("Starting ACS Project")
+    logger = log.setup_logger(name="Runner")
+    logger.info("Starting Sean Conroy ACS Project")
     secuirtyGroupId, keyName =start.setup()
     launch_ec2_instance(secuirtyGroupId,keyName)
     launch_ec2_instance_DataBase(secuirtyGroupId,keyName)
     launch_S3_bucket()
+    logger.info("ACS Project Completed")
     
-    
-    
-
-
 if __name__ == "__main__":
     main()
     

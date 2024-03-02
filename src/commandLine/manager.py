@@ -13,6 +13,16 @@ def run_command(key, ipAddress, command):
         log.error(f"Failed to run command: {e}")
         return None
 
+def run_local_command(command):
+    try:
+        logger.info(f"Running local command: {command}")
+        result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        output_handler(result)
+        return result
+    except Exception as e:
+        log.error(f"Failed to run local command: {e}")
+        return None
+
 def upload_file(key, ipAddress, file):
     try:
         logger.info(f"Uploading file: {file}")
@@ -28,3 +38,5 @@ def upload_file(key, ipAddress, file):
 def output_handler(result):
     output = result.stdout
     logger.info(f"Command output: {output}")
+
+
