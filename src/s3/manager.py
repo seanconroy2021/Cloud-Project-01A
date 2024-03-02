@@ -1,11 +1,14 @@
-import json 
+import json
+
 import boto3
+
 import utils.logger as log
 import utils.randomName as randomName
 
 logger = log.setup_logger(name="s3 Manager")
 s3_client = boto3.client("s3")
 s3_resource = boto3.resource("s3")
+
 
 def create_s3_bucket(bucketName):
     try:

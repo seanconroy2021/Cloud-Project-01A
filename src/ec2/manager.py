@@ -1,4 +1,3 @@
-import time
 import boto3
 
 import utils.logger as log
@@ -9,7 +8,7 @@ ec2_resource = boto3.resource("ec2")
 ec2_client = boto3.client("ec2")
 
 
-def launch_ec2_instance(instanceName, keyName, secuirtyGroupId,  userData):
+def launch_ec2_instance(instanceName, keyName, secuirtyGroupId, userData):
     try:
         instance = ec2_resource.create_instances(
             ImageId=get_amazon_linux_ami(),
@@ -53,6 +52,7 @@ def get_public_ip(id):
         logger.error(f"Failed to get public IP: {e}")
         return None
 
+
 def get_public_dns(id):
     try:
         instance = ec2_resource.Instance(id)
@@ -61,6 +61,7 @@ def get_public_dns(id):
     except Exception as e:
         logger.error(f"Failed to get public DNS: {e}")
         return None
+
 
 def waiter_status(id, state):
     try:

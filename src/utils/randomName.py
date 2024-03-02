@@ -1,7 +1,10 @@
 import random
 import string
+
 import utils.logger as log
+
 logger = log.setup_logger(name="Random Nam Creator")
+
 
 def randomName(name):
     randomChars = "".join(
