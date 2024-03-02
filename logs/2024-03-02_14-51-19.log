@@ -1,3 +1,0 @@
-2024-03-02 14:51:19,835 - acs_main - INFO - Starting ACS Project
-2024-03-02 14:51:19,835 - command line - INFO - Running local command: aws iam get-user
-2024-03-02 14:51:20,831 - command line - INFO - Command output: 

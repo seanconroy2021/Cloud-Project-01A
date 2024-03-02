@@ -2,8 +2,9 @@
 data/*.pem
 data/url.txt
 data/*.jpeg
+data/index.html
 data/setupConfig.json
-*.logs
+logs/*.log
 __pycache__/
 .vscode/
 .DS_Store

@@ -1,7 +1,0 @@
-2024-03-02 14:58:09,117 - acs_main - INFO - Starting ACS Project
-2024-03-02 14:58:09,117 - command line - INFO - Running local command: aws iam list-users
-2024-03-02 14:58:10,138 - command line - INFO - Command output: {
-    "Users": []
-}
-
-2024-03-02 14:58:10,139 - Initial Setup (only run once) - INFO - AWS is working

@@ -1,3 +1,0 @@
-2024-03-02 14:50:18,155 - acs_main - INFO - Starting ACS Project
-2024-03-02 14:50:18,155 - command line - INFO - Running local command: aws ec2 describe-instances
-2024-03-02 14:50:19,165 - command line - INFO - Command output: 

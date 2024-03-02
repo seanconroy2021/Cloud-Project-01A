@@ -1,5 +1,0 @@
-2024-03-02 14:59:54,813 - acs_main - INFO - Starting ACS Project
-2024-03-02 14:59:54,813 - command line - INFO - Running local command: aws iam list-users
-2024-03-02 14:59:55,756 - command line - INFO - Command output: 
-2024-03-02 14:59:55,757 - Initial Setup (only run once) - ERROR - AWS is not working
-2024-03-02 14:59:55,757 - Initial Setup (only run once) - INFO - Please make sure you have AWS (BOTO3) installed and configured.
