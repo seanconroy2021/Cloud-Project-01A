@@ -11,16 +11,61 @@ yum update -y
 yum install httpd -y
 systemctl enable httpd
 systemctl start httpd
-TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"`
-echo '<html>' > index.html
-echo 'Private IP address: ' >> index.html
-TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-
-metadata-token-ttl-seconds: 21600"`
-curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-
-data/local-ipv4 >> index.html
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+# Start building the HTML content
+echo '<!DOCTYPE html>' > index.html
+echo '<html>
+<head>
+    <title>EC2 Instance Information</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { margin: 20px 0; }
+        .header { color: #333366; margin: 20px 0; }
+        .image { text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1 class="header">EC2 Instance Information</h1>' >> index.html
+
+# private ip
+echo '<div class="container"> <strong>Private IP Address:</strong> ' >> index.html
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/local-ipv4 >> index.html
+echo '</div>' >> index.html
+
+# public ip
+echo '<div class="container"> <strong>Public IP Address:</strong> ' >> index.html
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4 >> index.html
+echo '</div>' >> index.html
+
+# instance id
+echo '<div class="container"> <strong>Instance ID:</strong> ' >> index.html
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id >> index.html
+echo '</div>' >> index.html
+
+# instance type
+echo '<div class="container"> <strong>Instance Type:</strong> ' >> index.html
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-type >> index.html
+echo '</div>' >> index.html
+
+# availability zone
+echo '<div class="container"> <strong>Availability Zone:</strong> ' >> index.html
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/availability-zone >> index.html
+echo '</div>' >> index.html
+
+# ami id
+echo '<div class="container">
+        <strong>AMI ID:</strong> ' >> index.html
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/ami-id >> index.html
+echo '</div>' >> index.html
+
+# image 
+echo '<div class="image">
+        <img src="https://miro.medium.com/v2/resize:fit:720/1*icemCezVMahlyIQB31tzpA.png" alt="EC2 Image" style="width:50%;">
+    </div>
+</body>
+</html>' >> index.html
 cp index.html /var/www/html/index.html
 '''
-
 userDatabase = '''#!/bin/bash
 sudo yum update -y
 
@@ -121,7 +166,7 @@ def main():
     secuirtyGroupId, keyName =start.setup()
     launch_ec2_instance(secuirtyGroupId,keyName)
     launch_ec2_instance_DataBase(secuirtyGroupId,keyName)
-    launch_S3_bucket()
+    # launch_S3_bucket()
     logger.info("ACS Project Completed")
     
 if __name__ == "__main__":

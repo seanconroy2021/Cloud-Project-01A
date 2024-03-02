@@ -1,0 +1,17 @@
+2024-03-02 17:11:24,586 - Runner - INFO - Starting Sean Conroy ACS Project
+2024-03-02 17:11:24,586 - command line - INFO - Running local command: aws iam list-users
+2024-03-02 17:11:25,742 - command line - INFO - Command output: {
+    "Users": []
+}
+
+2024-03-02 17:11:25,743 - Initial Setup (only run once) - INFO - AWS is working
+2024-03-02 17:11:25,743 - Initial Setup (only run once) - INFO - Configuration file exists, loading configuration...
+2024-03-02 17:11:25,743 - Initial Setup (only run once) - INFO - Configuration loaded successfully.
+2024-03-02 17:11:25,743 - APP - INFO - Launching Metadata EC2 Instance...
+2024-03-02 17:11:25,743 - ec2 Manager - INFO - Getting Amazon Linux AMI...
+2024-03-02 17:11:27,442 - ec2 Manager - INFO - Launched EC2 Instance: i-0643269e20432c221
+2024-03-02 17:11:27,452 - ec2 Manager - INFO - Waiting for instance ['i-0643269e20432c221'] to be running...
+2024-03-02 17:11:48,175 - ec2 Manager - ERROR - Error waiting for instance to running: Waiter InstanceRunning failed: Waiter encountered a terminal failure state: For expression "Reservations[].Instances[].State.Name" we matched expected path: "shutting-down" at least once
+2024-03-02 17:11:48,456 - ec2 Manager - INFO - Public IP: 3.87.78.252
+2024-03-02 17:11:48,640 - ec2 Manager - INFO - Public DNS: ec2-3-87-78-252.compute-1.amazonaws.com
+2024-03-02 17:11:48,640 - Browser Opener - INFO - Checking URL: http://3.87.78.252
