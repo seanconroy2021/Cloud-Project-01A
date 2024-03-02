@@ -1,5 +1,7 @@
 #!/bin/bash
+# This script is used to format and lint the Python code in the project.
 cd "$(dirname "$0")/.."
+
 # Format all Python files with Black
 echo "Formatting with Black..."
 black ./src

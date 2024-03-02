@@ -90,7 +90,6 @@ PUBLIC_DNS_NAME=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.
 sed -i "s/bindIp: 127.0.0.1/bindIp: $PUBLIC_DNS_NAME/" /etc/mongod.conf
 systemctl restart mongod
 """
-
 websiteConfiguration = {
     "IndexDocument": {"Suffix": "index.html"},
     "ErrorDocument": {"Key": "error.html"},
@@ -174,7 +173,6 @@ def main():
     launch_ec2_instance_DataBase(secuirtyGroupId, keyName)
     launch_S3_bucket()
     logger.info("ACS Project Completed")
-
 
 if __name__ == "__main__":
     main()
