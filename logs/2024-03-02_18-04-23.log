@@ -1,0 +1,9 @@
+2024-03-02 18:04:23,964 - Runner - INFO - Starting Sean Conroy ACS Project
+2024-03-02 18:04:24,637 - s3 Manager - INFO - Created bucket: dqkm25-scronoybucket
+2024-03-02 18:04:25,464 - s3 Manager - INFO - Uploaded file: data/image.jpeg to bucket: dqkm25-scronoybucket
+2024-03-02 18:04:25,700 - s3 Manager - INFO - Uploaded file: data/dqkm25-scronoybucketindex.html to bucket: dqkm25-scronoybucket
+2024-03-02 18:04:25,866 - s3 Manager - INFO - Deleted public access block: dqkm25-scronoybucket
+2024-03-02 18:04:26,088 - s3 Manager - INFO - Added policy to bucket: dqkm25-scronoybucket
+2024-03-02 18:04:26,261 - s3 Manager - INFO - Configured website: dqkm25-scronoybucket
+2024-03-02 18:04:26,261 - Browser Opener - INFO - Checking URL: http://dqkm25-scronoybucket.s3-website-us-east-1.amazonaws.com
+2024-03-02 18:05:06,624 - Browser Opener - INFO - Checking URL: http://dqkm25-scronoybucket.s3-website-us-east-1.amazonaws.com

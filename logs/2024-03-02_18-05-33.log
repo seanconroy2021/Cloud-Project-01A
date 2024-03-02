@@ -1,0 +1,12 @@
+2024-03-02 18:05:33,862 - Runner - INFO - Starting Sean Conroy ACS Project
+2024-03-02 18:05:34,503 - s3 Manager - INFO - Created bucket: mql8tw-scronoybucket
+2024-03-02 18:05:35,338 - s3 Manager - INFO - Uploaded file: data/image.jpeg to bucket: mql8tw-scronoybucket
+2024-03-02 18:05:35,568 - s3 Manager - INFO - Uploaded file: data/index.html to bucket: mql8tw-scronoybucket
+2024-03-02 18:05:35,727 - s3 Manager - INFO - Deleted public access block: mql8tw-scronoybucket
+2024-03-02 18:05:35,940 - s3 Manager - INFO - Added policy to bucket: mql8tw-scronoybucket
+2024-03-02 18:05:36,134 - s3 Manager - INFO - Configured website: mql8tw-scronoybucket
+2024-03-02 18:05:36,134 - Browser Opener - INFO - Checking URL: http://mql8tw-scronoybucket.s3-website-us-east-1.amazonaws.com
+2024-03-02 18:05:36,947 - Browser Opener - INFO - URL is accessible
+2024-03-02 18:05:36,947 - Browser Opener - INFO - Opened browser to S3 Website: http://mql8tw-scronoybucket.s3-website-us-east-1.amazonaws.com
+2024-03-02 18:05:37,689 - Browser Opener - INFO - URL written to file: data/url.txt
+2024-03-02 18:05:37,690 - Runner - INFO - ACS Project Completed

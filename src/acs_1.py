@@ -134,6 +134,7 @@ def launch_ec2_instance_DataBase(secuirtyGroupId, keyName):
         )
         browser.wait_for_url(f"http://{dns}:27017", 120, 60)
         add_data_to_database(ip, dns,keyName)
+        launch_monitoring_instance_metadata(ip,keyName)
     except Exception as e:
         logger.error(f"Failed to launch EC2 instance: {e}")
 
@@ -153,20 +154,26 @@ def launch_ec2_instance(secuirtyGroupId, keyName):
 
 def launch_S3_bucket():
     bucketName=s3.create_s3_bucket("ScronoyBucket")
+    url =f"http://{bucketName}.s3-website-us-east-1.amazonaws.com"
+    with open('data/indexTemplate.html', 'r') as file:
+        html = file.read()
+    newHtml=html.replace('{name}', bucketName).replace('{URL}', url)
+    with open(f'data/index.html', 'w') as newFile:
+        newFile.write(newHtml)
     urllib.request.urlretrieve('https://setuacsresources.s3-eu-west-1.amazonaws.com/image.jpeg', 'data/image.jpeg')
     s3.upload_file_to_bucket(bucketName, "data/image.jpeg", "image/jpeg")
-    s3.upload_file_to_bucket(bucketName, "data/index.html", "text/html")
+    s3.upload_file_to_bucket(bucketName, f"data/index.html", "text/html")
     s3.add_policy(bucketName)
     s3.website_configuration(bucketName, websiteConfiguration)
-    browser.open_browser("S3 Website", f"http://{bucketName}.s3-website-us-east-1.amazonaws.com")
+    browser.open_browser("S3 Website", url)
 
 def main():
-    logger = log.setup_logger(name="Runner")
+    logger = log.setup_logger(name="Main")
     logger.info("Starting Sean Conroy ACS Project")
     secuirtyGroupId, keyName =start.setup()
     launch_ec2_instance(secuirtyGroupId,keyName)
     launch_ec2_instance_DataBase(secuirtyGroupId,keyName)
-    # launch_S3_bucket()
+    launch_S3_bucket()
     logger.info("ACS Project Completed")
     
 if __name__ == "__main__":
