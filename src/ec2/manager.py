@@ -110,10 +110,10 @@ def get_amazon_linux_ami():
         amis = sorted(response["Images"], key=lambda x: x["CreationDate"], reverse=True)
         if amis:
             latestAmi = amis[0]  # The most recent AMI
-            print(f"Specific Amazon Linux AMI ID found: {latestAmi['ImageId']}")
+            logger.info(f"Specific Amazon Linux AMI ID found: {latestAmi['ImageId']}")
             return latestAmi["ImageId"]
         else:
-            print("No Amazon Linux AMI found.")
+            logger.error("No Amazon Linux AMI found.")
             raise Exception("No specific Amazon Linux AMI found.")
     except Exception as e:
         logger.error(f"Failed to get Amazon Linux AMI: {e}")

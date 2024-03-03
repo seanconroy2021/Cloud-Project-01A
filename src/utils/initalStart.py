@@ -38,7 +38,6 @@ def setup_security_group():
     """
     try:
         name = randomName.randomName("SconroySecurityGroup")
-        print(name)
         id = security.create_security_group(
             groupName=name,
             description="Sconroy Security Group",
