@@ -67,6 +67,8 @@ echo '<div class="image">
 </html>' >> index.html
 cp index.html /var/www/html/index.html
 """
+# link:https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-amazon/
+# link:https://docs.aws.amazon.com/dms/latest/sbs/chap-mongodb2documentdb.02.html
 userDatabase = """#!/bin/bash
 sudo yum update -y
 
@@ -100,7 +102,7 @@ logger = log.setup_logger(name="APP")
 
 # This function uses helper functions created in the ec2.manager.py and commandLine.manager.py files.
 def launch_monitoring_instance_metadata(ip, keyName):
-    """ 
+    """
     This function is used to launch the monitoring instance metadata.
     it take in the ip address and the key name.
     """
@@ -113,14 +115,14 @@ def launch_monitoring_instance_metadata(ip, keyName):
     )
 
 
-#This function uses helper functions created in the commandLine.manager.py
+# This function uses helper functions created in the commandLine.manager.py
 # It will SCP and SSH into the EC2 instance and upload the database.json file to the EC2 instance.
 # Then it will run the mongoimport command to add the data to the database.
 def add_data_to_database(ip, dns, keyName):
     """
     This function is used to add data to the database.
     It takes in the ip address, dns and key name.
-    Ip is needed for the SSH connection and the dns is needed for the mongoimport command. 
+    Ip is needed for the SSH connection and the dns is needed for the mongoimport command.
     The Data is added from the data/database.json file.
     """
     logger.info("Adding data to Database...")
@@ -155,10 +157,11 @@ def launch_ec2_instance_DataBase(secuirtyGroupId, keyName):
         command = f'mongosh "mongodb://{dns}/irelandCounties" --eval "printjson(db.counties.find().toArray())"'
         cmd.run_local_command(command)
         launch_monitoring_instance_metadata(ip, keyName)
-    except Exception as e:
+    except Exception:
         logger.error("Failed to fully launch EC2 Database")
         logger.warning("Skipping the rest of this function.....")
         return
+
 
 # This function uses helper functions created in the ec2.manager.py, browser.manager.py and launch_monitoring_instance_metadata.
 # It will launch the EC2 instance and user user data to install httpd and start the httpd service.
@@ -181,7 +184,7 @@ def launch_ec2_instance(secuirtyGroupId, keyName):
         )
         browser.open_browser("Metadata Website", f"http://{ip}")
         launch_monitoring_instance_metadata(ip, keyName)
-    except Exception as e:
+    except Exception:
         logger.error("Failed to fully launch EC2 Metadata")
         logger.warning("Skipping the rest of this function.....")
         return
@@ -218,7 +221,7 @@ def launch_S3_bucket():
         s3.add_policy(bucketName)
         s3.website_configuration(bucketName, websiteConfiguration)
         browser.open_browser("S3 Website", url)
-    except Exception as e:
+    except Exception:
         logger.error("Failed to fully launch S3 website")
         logger.warning("Skipping the rest of this function.....")
         return
@@ -233,6 +236,7 @@ def main():
     launch_S3_bucket()
 
     logger.info("ACS Project Completed")
+
 
 if __name__ == "__main__":
     main()

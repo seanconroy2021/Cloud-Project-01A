@@ -4,19 +4,20 @@ import utils.logger as log
 
 logger = log.setup_logger(name="ec2 Manager")
 
-#link:https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2.html#ec2
-#link:https://boto3.amazonaws.com/v1/documentation/api/latest/guide/migrationec2.html
-#These are the boto3 resources and clients that we will use to interact with AWS.
+# link:https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2.html#ec2
+# link:https://boto3.amazonaws.com/v1/documentation/api/latest/guide/migrationec2.html
+# These are the boto3 resources and clients that we will use to interact with AWS.
 ec2_resource = boto3.resource("ec2")
 ec2_client = boto3.client("ec2")
 
-#This is a helper function to launch an EC2 instance.
-#It takes in the instance name, key name, security group id and user data.
-#It then creates an EC2 instance and returns the public IP and DNS.
+# This is a helper function to launch an EC2 instance.
+# It takes in the instance name, key name, security group id and user data.
+# It then creates an EC2 instance and returns the public IP and DNS.
+
 
 def launch_ec2_instance(instanceName, keyName, secuirtyGroupId, userData):
     try:
-        #https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/service-resource/create_instances.html#create-instances
+        # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/service-resource/create_instances.html#create-instances
         instance = ec2_resource.create_instances(
             ImageId=get_amazon_linux_ami(),
             MinCount=1,
@@ -41,7 +42,8 @@ def launch_ec2_instance(instanceName, keyName, secuirtyGroupId, userData):
         logger.error(f"Failed to launch EC2 instance: {e}")
         raise e
 
-#This is a helper function to get the lastest Amazon Linux AMI for the EC2 helper functions.
+
+# This is a helper function to get the lastest Amazon Linux AMI for the EC2 helper functions.
 def get_amazon_linux_ami():
     try:
         logger.info("Getting Amazon Linux AMI...")
@@ -50,8 +52,9 @@ def get_amazon_linux_ami():
         logger.error(f"Failed to get Amazon Linux AMI: {e}")
         raise e
 
-#This is a helper function to get the public IP of an EC2 instance.
-#It takes in the instance id and returns the public IP.
+
+# This is a helper function to get the public IP of an EC2 instance.
+# It takes in the instance id and returns the public IP.
 def get_public_ip(id):
     try:
         instance = ec2_resource.Instance(id)
@@ -61,8 +64,9 @@ def get_public_ip(id):
         logger.error(f"Failed to get public IP: {e}")
         raise e
 
-#This is a helper function simlar to above instead get the public DNS of an EC2 instance.
-#It takes in the instance id and returns the public DNS.
+
+# This is a helper function simlar to above instead get the public DNS of an EC2 instance.
+# It takes in the instance id and returns the public DNS.
 def get_public_dns(id):
     try:
         instance = ec2_resource.Instance(id)
@@ -72,8 +76,9 @@ def get_public_dns(id):
         logger.error(f"Failed to get public DNS: {e}")
         raise e
 
-#This is a helper function that is used by the EC2 helper functions to wait for an instance to reach a certain state.
-#It takes in the instance id and the state to wait for.
+
+# This is a helper function that is used by the EC2 helper functions to wait for an instance to reach a certain state.
+# It takes in the instance id and the state to wait for.
 def waiter_status(id, state):
     try:
         waiter = ec2_client.get_waiter(f"instance_{state}")

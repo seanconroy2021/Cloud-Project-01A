@@ -13,7 +13,7 @@ s3_resource = boto3.resource("s3")
 def create_s3_bucket(bucketName):
     """
     This is a helper function to create an S3 bucket.
-    It takes in the bucket name and creates the bucket. 
+    It takes in the bucket name and creates the bucket.
     Returns the bucket name (that is now random-name ).
     """
     try:

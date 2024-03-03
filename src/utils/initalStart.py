@@ -28,6 +28,7 @@ inbound = [
     },
 ]
 
+
 # These functions are used to setup the security group and key pair for the EC2 instance before launching the EC2 instance and S3 bucket.
 # These functions use helper functions created in the security.manager.py & randomName.py files.
 def setup_security_group():
@@ -42,7 +43,7 @@ def setup_security_group():
             groupName=name,
             description="Sconroy Security Group",
             inboundRules=inbound,
-            outboundRules=[],
+            outboundRules=None,
         )
         logger.info(f"Security group created id: {id} name: {name}")
         return id
@@ -73,7 +74,9 @@ def check_aws_working():
     It will also log the error/output of the command.
     If response anything else then 0 it will exit the program.
     """
-    response = cmd.run_local_command("aws iam list-users") # run the command "aws iam list-users" locally it check to see if aws has the right credentials.
+    response = cmd.run_local_command(
+        "aws iam list-users"
+    )  # run the command "aws iam list-users" locally it check to see if aws has the right credentials.
     if response.returncode == 0:
         logger.info("AWS is working")
     else:

@@ -20,7 +20,7 @@ def create_security_group(groupName, description, inboundRules, outboundRules):
     ]
     """
     try:
-        #link:https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/create_security_group.html#create-security-group
+        # link:https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/create_security_group.html#create-security-group
         response = ec2_client.create_security_group(
             Description=description,
             GroupName=groupName,
@@ -34,7 +34,7 @@ def create_security_group(groupName, description, inboundRules, outboundRules):
             ],
         )
         group_id = response["GroupId"]
-        add_rules(group_id, inboundRules, outboundRules) 
+        add_rules(group_id, inboundRules, outboundRules)
         logger.info(f"Created security group: {group_id}")
         return group_id
     except Exception as e:
@@ -42,14 +42,14 @@ def create_security_group(groupName, description, inboundRules, outboundRules):
         raise e
 
 
-def add_rules(GroupId,Inbound,Outbound):
+def add_rules(GroupId, Inbound, Outbound):
     """
     This function is a helper function for the security group to add inbound and outbound rules.
     It takes in the group id, inbound rules and outbound rules.
     """
     try:
-        #link Inboud (ingress) https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/authorize_security_group_ingress.html#authorize-security-group-ingress
-        if Inbound == None or Inbound == []:
+        # link Inboud (ingress) https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/authorize_security_group_ingress.html#authorize-security-group-ingress
+        if Inbound is None or Inbound is []:
             logger.info(f"No inbound rules to add to security group: {GroupId}")
             dataInbound = None
         else:
@@ -58,8 +58,8 @@ def add_rules(GroupId,Inbound,Outbound):
                 GroupId=GroupId, IpPermissions=Inbound
             )
 
-        #link Outbound (egress) https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/authorize_security_group_egress.html#authorize-security-group-egress
-        if Outbound == None or Outbound == []:
+        # link Outbound (egress) https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/authorize_security_group_egress.html#authorize-security-group-egress
+        if Outbound is None or Outbound is []:
             logger.info(f"No outbound rules to add to security group: {GroupId}")
             dataOutbound = None
         else:
@@ -70,18 +70,18 @@ def add_rules(GroupId,Inbound,Outbound):
         logger.info(f"Added rules to security group: {GroupId}")
     except Exception as e:
         logger.error(f"Failed to add rules to security group: {e}")
-    return dataInbound,dataOutbound
+    return dataInbound, dataOutbound
 
 
 def create_key_pair(KeyName):
     """
     This function is a helper function used to create a key pair for an EC2 instance.
-    It takes in the key name and creates the key pair (take the data of the key and write it to a file at 
+    It takes in the key name and creates the key pair (take the data of the key and write it to a file at
     /data/key.pem).
     It will also return the key name once created.
     """
     try:
-        #link:https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/create_key_pair.html#create-key-pair
+        # link:https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/create_key_pair.html#create-key-pair
         response = ec2_client.create_key_pair(
             KeyName=KeyName,
             KeyType="rsa",

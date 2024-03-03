@@ -8,7 +8,7 @@ logger = log.setup_logger(name="Random Name Creator")
 
 def randomName(name):
     """
-    This function is helper function to create a random name it take in name 
+    This function is helper function to create a random name it take in name
     and adds a random 6 character string to the start of the name.eg. "a34f343-Name"
     """
     randomChars = "".join(
