@@ -111,6 +111,6 @@ def write_to_key_to_file(response, filename):
     try:
         with open(filename, "w") as file:
             file.write(response["KeyMaterial"])
-        logger.info(f"Key written to file: data/{filename}.pem")
+        logger.info(f"Key written to file: {filename}")
     except Exception as e:
         logger.error(f"Failed to write key to file: {e}")

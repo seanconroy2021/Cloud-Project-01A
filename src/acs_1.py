@@ -101,7 +101,7 @@ logger = log.setup_logger(name="APP")
 
 
 # This function uses helper functions created in the ec2.manager.py and commandLine.manager.py files.
-def launch_monitoring_instance_script(ip, keyName,name):
+def launch_monitoring_instance_script(ip, keyName, name):
     """
     This function is used to launch the monitoring instance metadata.
     it take in the ip address and the key name and name of the instance.
@@ -156,7 +156,7 @@ def launch_ec2_instance_DataBase(secuirtyGroupId, keyName):
         add_data_to_database(ip, dns, keyName)
         command = f'mongosh "mongodb://{dns}/irelandCounties" --eval "printjson(db.counties.find().toArray())"'
         cmd.run_local_command(command)
-        launch_monitoring_instance_script(ip, keyName,"Database")
+        launch_monitoring_instance_script(ip, keyName, "Database")
     except Exception:
         logger.error("Failed to fully launch EC2 Database")
         logger.warning("Skipping the rest of this function.....")
@@ -175,7 +175,7 @@ def launch_ec2_instance(secuirtyGroupId, keyName):
     It takes in the security group id and the key name.
     """
     try:
-        logger.info(f"Launching Metadata EC2 Instance...")
+        logger.info("Launching Metadata EC2 Instance...")
         ip, dns = ec2.launch_ec2_instance(
             instanceName="Ec2_Metadata(ACS)",
             keyName=keyName,
@@ -183,32 +183,35 @@ def launch_ec2_instance(secuirtyGroupId, keyName):
             userData=userData,
         )
         browser.open_browser("Metadata Website", f"http://{ip}")
-        launch_monitoring_instance_script(ip, keyName,"Metadata")
+        launch_monitoring_instance_script(ip, keyName, "Metadata")
     except Exception:
         logger.error("Failed to fully launch EC2 Metadata")
         logger.warning("Skipping the rest of this function.....")
         return
 
-def get_image():  
+
+def get_image():
     """
     This function is used to get the image from a S3 bucket.
     If the image cannot be retrieved it will raise an exception.
-    """      
+    """
     try:
         logger.info("Getting Image.....")
         urllib.request.urlretrieve(
-                "https://setuacsresources.s3-eu-west-1.amazonaws.com/image.jpeg",
-                "data/image.jpeg",
-            )
+            "https://setuacsresources.s3-eu-west-1.amazonaws.com/image.jpeg",
+            "data/image.jpeg",
+        )
     except Exception:
         logger.error("Failed to get image")
         raise Exception("Failed to get image")
+
 
 # This function uses helper functions created in the s3.manager.py and browser.manager.py.
 # It will create a S3 bucket and add attributes to indexTemplate.html (name and url) and upload it to the S3 bucket.
 # It will also upload the image.jpeg the S3 bucket after retrieving it from the the other S3 bucket.
 # Then it will add a policy (pre-set) to the S3 bucket and add the website configuration to the S3 bucket.
 # Lastly it will open a browser to the S3 bucket after it is accessible and output the URL to data/url.txt.
+
 
 def launch_S3_bucket():
     """
@@ -239,6 +242,7 @@ def launch_S3_bucket():
         logger.warning("Skipping the rest of this function.....")
         return
 
+
 def before_exit():
     logger.info("ACS Project Completed")
     logger.info("Exiting Program")
@@ -253,6 +257,7 @@ def main():
     launch_ec2_instance_DataBase(secuirtyGroupId, keyName)
     launch_S3_bucket()
     before_exit()
+
 
 if __name__ == "__main__":
     main()
