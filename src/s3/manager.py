@@ -23,7 +23,7 @@ def create_s3_bucket(bucketName):
         return bucketName
     except Exception as e:
         logger.error(f"Failed to create S3 bucket: {e}")
-        return None
+        raise e
 
 
 # Had add content type to be able to reach the index.html file
@@ -45,7 +45,7 @@ def upload_file_to_bucket(bucketName, filePath, contentType):
         return response
     except Exception as e:
         logger.error(f"Failed to upload file: {filePath} to bucket: {bucketName}: {e}")
-        return None
+        raise e
 
 
 def add_policy(bucketName):
@@ -77,7 +77,7 @@ def add_policy(bucketName):
         logger.info(f"Added policy to bucket: {bucketName}")
     except Exception as e:
         logger.error(f"Failed to add policy to {bucketName}: {e}")
-        return None
+        raise e
 
 
 def website_configuration(bucketName, configuration):
@@ -95,4 +95,4 @@ def website_configuration(bucketName, configuration):
         logger.info(f"Configured website: {bucketName}")
     except Exception as e:
         logger.error(f"Failed to configure website: {bucketName}: {e}")
-        return None
+        raise e

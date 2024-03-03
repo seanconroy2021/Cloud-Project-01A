@@ -15,13 +15,13 @@ def open_browser(name, url):
     This function opens a browser to a specific URL.
     """
     try:
-        wait_for_url(url, 120, 40)
+        wait_for_url(url, 180, 33)
         logger.info(f"Opened browser to {name}: {url}")
         webbrowser.open(url)
         write_Url_to_file(name, url)
     except Exception as e:
         logger.error(f"Failed to open browser: {e}")
-        return None
+        raise e
 
 
 def wait_for_url(url, amount, sleep):
@@ -39,12 +39,11 @@ def wait_for_url(url, amount, sleep):
                 return True
         except requests.RequestException:
             logger.warning("URL check failed")
-            if time.time() - start_time <= amount:
-                logger.warning("URL is not accessible. trying again  Waiting...")
+            logger.warning("Dont worry, we will try again.")
 
         if time.time() - start_time >= amount: # When time is greater than amount allowed return Fase meaning URL is not accessible.
             logger.error("Timeout reached. URL is not accessible.")
-            return False
+            raise TimeoutError 
         time.sleep(sleep) 
 
 
@@ -60,4 +59,4 @@ def write_Url_to_file(name, url):
             logger.info(f"URL written to file: {filename}")
     except Exception as e:
         logger.error(f"Failed to write URL to file: {e}")
-        return None
+        raise e

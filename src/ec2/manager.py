@@ -39,6 +39,7 @@ def launch_ec2_instance(instanceName, keyName, secuirtyGroupId, userData):
         return ip, dns
     except Exception as e:
         logger.error(f"Failed to launch EC2 instance: {e}")
+        raise e
 
 #This is a helper function to get the lastest Amazon Linux AMI for the EC2 helper functions.
 def get_amazon_linux_ami():
@@ -47,7 +48,7 @@ def get_amazon_linux_ami():
         return "ami-0440d3b780d96b29d"
     except Exception as e:
         logger.error(f"Failed to get Amazon Linux AMI: {e}")
-        return None
+        raise e
 
 #This is a helper function to get the public IP of an EC2 instance.
 #It takes in the instance id and returns the public IP.
@@ -58,7 +59,7 @@ def get_public_ip(id):
         return instance.public_ip_address
     except Exception as e:
         logger.error(f"Failed to get public IP: {e}")
-        return None
+        raise e
 
 #This is a helper function simlar to above instead get the public DNS of an EC2 instance.
 #It takes in the instance id and returns the public DNS.
@@ -69,16 +70,16 @@ def get_public_dns(id):
         return instance.public_dns_name
     except Exception as e:
         logger.error(f"Failed to get public DNS: {e}")
-        return None
+        raise e
 
 #This is a helper function that is used by the EC2 helper functions to wait for an instance to reach a certain state.
 #It takes in the instance id and the state to wait for.
 def waiter_status(id, state):
     try:
         waiter = ec2_client.get_waiter(f"instance_{state}")
-        logger.info(f"Waiting for instance {id} to be {state}...")
+        logger.info(f"Waiting for instance to be {state}...")
         waiter.wait(InstanceIds=id, WaiterConfig={"Delay": 20, "MaxAttempts": 20})
         logger.info(f"Instance {state} successfully.")
     except Exception as e:
         logger.error(f"Error waiting for instance to {state}: {e}")
-        return None
+        raise e

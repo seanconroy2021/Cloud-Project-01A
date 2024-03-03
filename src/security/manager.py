@@ -39,7 +39,7 @@ def create_security_group(groupName, description, inboundRules, outboundRules):
         return group_id
     except Exception as e:
         logger.error(f"Failed to create security group: {e}")
-        return None
+        raise e
 
 
 def add_rules(GroupId,Inbound,Outbound):
@@ -100,7 +100,7 @@ def create_key_pair(KeyName):
         return KeyName
     except Exception as e:
         logger.error(f"Failed to create key pair: {e}")
-        return None
+        raise e
 
 
 def write_to_key_to_file(response, filename):

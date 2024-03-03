@@ -156,7 +156,9 @@ def launch_ec2_instance_DataBase(secuirtyGroupId, keyName):
         cmd.run_local_command(command)
         launch_monitoring_instance_metadata(ip, keyName)
     except Exception as e:
-        logger.error(f"Failed to launch EC2 instance: {e}")
+        logger.error("Failed to fully launch EC2 Database")
+        logger.warning("Skipping the rest of this function.....")
+        return
 
 # This function uses helper functions created in the ec2.manager.py, browser.manager.py and launch_monitoring_instance_metadata.
 # It will launch the EC2 instance and user user data to install httpd and start the httpd service.
@@ -180,7 +182,9 @@ def launch_ec2_instance(secuirtyGroupId, keyName):
         browser.open_browser("Metadata Website", f"http://{ip}")
         launch_monitoring_instance_metadata(ip, keyName)
     except Exception as e:
-        logger.error(f"Failed to launch EC2 instance: {e}")
+        logger.error("Failed to fully launch EC2 Metadata")
+        logger.warning("Skipping the rest of this function.....")
+        return
 
 
 # This function uses helper functions created in the s3.manager.py and browser.manager.py.
@@ -196,22 +200,28 @@ def launch_S3_bucket():
     Then it will add a policy (pre-set) to the S3 bucket and add the website configuration to the S3 bucket.
     lastly open a browser to the S3 bucket after it is accessible and output the URL to data/url.txt.
     """
-    bucketName = s3.create_s3_bucket("ScronoyBucket")
-    url = f"http://{bucketName}.s3-website-us-east-1.amazonaws.com"
-    with open("data/indexTemplate.html", "r") as file:
-        html = file.read()
-    newHtml = html.replace("{name}", bucketName).replace("{URL}", url)
-    with open("data/index.html", "w") as newFile:
-        newFile.write(newHtml)
-    urllib.request.urlretrieve(
-        "https://setuacsresources.s3-eu-west-1.amazonaws.com/image.jpeg",
-        "data/image.jpeg",
-    )
-    s3.upload_file_to_bucket(bucketName, "data/image.jpeg", "image/jpeg")
-    s3.upload_file_to_bucket(bucketName, "data/index.html", "text/html")
-    s3.add_policy(bucketName)
-    s3.website_configuration(bucketName, websiteConfiguration)
-    browser.open_browser("S3 Website", url)
+    try:
+        logger.info("Launching S3 Bucket...")
+        bucketName = s3.create_s3_bucket("ScronoyBucket")
+        url = f"http://{bucketName}.s3-website-us-east-1.amazonaws.com"
+        with open("data/indexTemplate.html", "r") as file:
+            html = file.read()
+        newHtml = html.replace("{name}", bucketName).replace("{URL}", url)
+        with open("data/index.html", "w") as newFile:
+            newFile.write(newHtml)
+        urllib.request.urlretrieve(
+            "https://setuacsresources.s3-eu-west-1.amazonaws.com/image.jpeg",
+            "data/image.jpeg",
+        )
+        s3.upload_file_to_bucket(bucketName, "data/image.jpeg", "image/jpeg")
+        s3.upload_file_to_bucket(bucketName, "data/index.html", "text/html")
+        s3.add_policy(bucketName)
+        s3.website_configuration(bucketName, websiteConfiguration)
+        browser.open_browser("S3 Website", url)
+    except Exception as e:
+        logger.error("Failed to fully launch S3 website")
+        logger.warning("Skipping the rest of this function.....")
+        return
 
 
 def main():
@@ -219,8 +229,8 @@ def main():
     logger.info("Starting Sean Conroy ACS Project")
     secuirtyGroupId, keyName = start.setup()
     launch_ec2_instance(secuirtyGroupId, keyName)
-    # launch_ec2_instance_DataBase(secuirtyGroupId, keyName)
-    # launch_S3_bucket()
+    launch_ec2_instance_DataBase(secuirtyGroupId, keyName)
+    launch_S3_bucket()
 
     logger.info("ACS Project Completed")
 

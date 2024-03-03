@@ -48,6 +48,7 @@ def setup_security_group():
         return id
     except Exception as e:
         logger.error(f"Failed to setup security group : {e}")
+        raise e
 
 
 def setup_key_pair():
@@ -62,6 +63,7 @@ def setup_key_pair():
         return keyName
     except Exception as e:
         logger.error(f"Failed to setup key pair: {e}")
+        raise e
 
 
 def check_aws_working():
