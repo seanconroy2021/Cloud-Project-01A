@@ -12,6 +12,6 @@ isort ./src
 
 # Lint with Flake8
 echo "Linting with Flake8..."
-flake8 ./src
+flake8 --ignore=E501 ./src
 
 echo "Formatting and linting complete."

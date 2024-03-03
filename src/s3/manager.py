@@ -11,6 +11,11 @@ s3_resource = boto3.resource("s3")
 
 
 def create_s3_bucket(bucketName):
+    """
+    This is a helper function to create an S3 bucket.
+    It takes in the bucket name and creates the bucket. 
+    Returns the bucket name (that is now random-name ).
+    """
     try:
         bucketName = randomName.randomName(bucketName)
         s3_client.create_bucket(Bucket=bucketName)
@@ -21,7 +26,12 @@ def create_s3_bucket(bucketName):
         return None
 
 
+# Had add content type to be able to reach the index.html file
 def upload_file_to_bucket(bucketName, filePath, contentType):
+    """
+    This function is a helper function used to upload a file to an S3 bucket.
+    It takes in the bucket name, file path and content type e.g. "text/html".
+    """
     try:
         fileName = filePath.split("/")[-1]
         response = s3_resource.Object(bucketName, fileName).put(
@@ -39,6 +49,11 @@ def upload_file_to_bucket(bucketName, filePath, contentType):
 
 
 def add_policy(bucketName):
+    """
+    This function is a helper function used to add a generic policy to an S3 bucket.
+    It takes in the bucket name and adds a policy to the bucket.
+    (This policy allows public read access to the bucket and delete the public block.)
+    """
     try:
         s3_client.delete_public_access_block(Bucket=bucketName)
         logger.info(f"Deleted public access block: {bucketName}")
@@ -66,6 +81,14 @@ def add_policy(bucketName):
 
 
 def website_configuration(bucketName, configuration):
+    """
+    This function is a helper function used to configure a website on an S3 bucket.
+    It takes in the bucket name and then sets up the S3 bucket to be a website.
+    Also, it takes in the configuration for the website. e.g.
+    {
+    "IndexDocument": {"Suffix": "index.html"},
+    }
+    """
     try:
         bucket_website = s3_resource.BucketWebsite(bucketName)
         bucket_website.put(WebsiteConfiguration=configuration)

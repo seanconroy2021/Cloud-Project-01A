@@ -1,6 +1,16 @@
-# Project Title
+# Sean AWS Automation
 
-Brief description of what your project does.
+This project is a Python-based automation tool for AWS. It is designed to help developers and system administrators to automate the process of creating and managing AWS resources.
+
+This project will create and manage the following AWS resources:
+create two instances of EC2:
+    - One that is a MongoDB server with a public DNS and a security group that allows traffic on port 27017 and SSH on port 22
+
+    - One that is a web server with a public IP and a security group that allows traffic on port 80 and SSh on port 22
+  
+create an S3 bucket:
+    - The bucket is public and made into a lsstatic website which will display an image of SETU it will also display the S3 bucket name and the URl of the S3 bucket.
+
 
 ## Getting Started
 

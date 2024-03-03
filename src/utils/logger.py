@@ -1,19 +1,22 @@
-import datetime
+from datetime import datetime
 import logging
-
-current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
+import colorlog
+current_time = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
 def setup_logger(name, log_file=f"logs/{current_time}.log", level=logging.INFO):
-    formatter = logging.Formatter(
+    color_formatter = colorlog.ColoredFormatter(
+        "%(asctime)s - %(log_color)s%(name)s - %(levelname)s%(reset)s - %(message)s"
+    )
+
+    plain_formatter = logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
     file_handler = logging.FileHandler(log_file)
-    file_handler.setFormatter(formatter)
+    file_handler.setFormatter(plain_formatter)
 
     stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(formatter)
+    stream_handler.setFormatter(color_formatter)
 
     logger = logging.getLogger(name)
     logger.setLevel(level)
