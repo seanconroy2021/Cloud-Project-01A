@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script is used to format and lint the Python code in the project.
-cd "$(dirname "$0")/.."
+# I used this script to automate the process of formatting and linting the code.
 
 # Format all Python files with Black
 echo "Formatting with Black..."
@@ -12,6 +12,6 @@ isort ./src
 
 # Lint with Flake8
 echo "Linting with Flake8..."
-flake8 --ignore=E501 ./src
+flake8 --ignore=E501 ./src # Ignore line length errors this is due to long userdata
 
 echo "Formatting and linting complete."

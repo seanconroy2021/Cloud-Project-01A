@@ -6,6 +6,9 @@ import colorlog
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
 
+# link: https://realpython.com/python-logging/
+# link: https://docs.python.org/3/howto/logging.html
+# The use of Github Copilot was used to fix the code
 def setup_logger(name, log_file=f"logs/{current_time}.log", level=logging.INFO):
     color_formatter = colorlog.ColoredFormatter(
         "%(asctime)s - %(log_color)s%(name)s - %(levelname)s%(reset)s - %(message)s"

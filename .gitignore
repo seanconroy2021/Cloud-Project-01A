@@ -1,4 +1,4 @@
-# Ignore specific file types in the data directory
+# Ignore specific files
 data/*.pem
 data/url.txt
 data/*.jpeg

@@ -204,9 +204,10 @@ def launch_S3_bucket():
     lastly open a browser to the S3 bucket after it is accessible and output the URL to data/url.txt.
     """
     try:
+
         logger.info("Launching S3 Bucket...")
-        bucketName = s3.create_s3_bucket("ScronoyBucket")
-        url = f"http://{bucketName}.s3-website-us-east-1.amazonaws.com"
+        bucketName, regoin = s3.create_s3_bucket("ScronoyBucket")
+        url = f"http://{bucketName}.s3-website-{regoin}.amazonaws.com"
         with open("data/indexTemplate.html", "r") as file:
             html = file.read()
         newHtml = html.replace("{name}", bucketName).replace("{URL}", url)
@@ -234,8 +235,9 @@ def main():
     launch_ec2_instance(secuirtyGroupId, keyName)
     launch_ec2_instance_DataBase(secuirtyGroupId, keyName)
     launch_S3_bucket()
-
     logger.info("ACS Project Completed")
+    logger.info("Exiting Program")
+    logger.info("Log can be found in the data/logs folder")
 
 
 if __name__ == "__main__":

@@ -10,6 +10,24 @@ s3_client = boto3.client("s3")
 s3_resource = boto3.resource("s3")
 
 
+def get_region():
+    """
+    This function is a helper function to get the region of the AWS account.
+    It returns the region of the AWS based on your config file.
+    """
+    try:
+        # link https://boto3.amazonaws.com/v1/documentation/api/latest/reference/core/session.html
+        # Since not seeting any session it will use the default profile and region information from your ./aws/config.
+        # This then allow us to get the region of the account.
+        session = boto3.session.Session()
+        currentRegion = session.region_name
+        logger.info(f"Region: {currentRegion}")
+        return currentRegion
+    except Exception as e:
+        logger.error(f"Failed to get region: {e}")
+        raise e
+
+
 def create_s3_bucket(bucketName):
     """
     This is a helper function to create an S3 bucket.
@@ -18,9 +36,10 @@ def create_s3_bucket(bucketName):
     """
     try:
         bucketName = randomName.randomName(bucketName)
+        region = get_region()
         s3_client.create_bucket(Bucket=bucketName)
         logger.info(f"Created bucket: {bucketName}")
-        return bucketName
+        return bucketName, region
     except Exception as e:
         logger.error(f"Failed to create S3 bucket: {e}")
         raise e

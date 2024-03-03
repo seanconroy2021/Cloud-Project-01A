@@ -43,11 +43,78 @@ def launch_ec2_instance(instanceName, keyName, secuirtyGroupId, userData):
         raise e
 
 
+# Link:https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/describe_images.html#describe-images
 # This is a helper function to get the lastest Amazon Linux AMI for the EC2 helper functions.
+# this was very hard to setup I ended up using "aws ec2 describe-images" and then searched the json for AMI ID e.g.ami-0440d3b780d96b29d"
+# and then used the json to create the filter below here is the json I used to create the filter below.
+# #{
+#             "Architecture": "x86_64",
+#             "CreationDate": "2024-02-16T21:29:42.000Z",
+#             "ImageId": "ami-0440d3b780d96b29d",
+#             "ImageLocation": "amazon/al2023-ami-2023.3.20240219.0-kernel-6.1-x86_64",
+#             "ImageType": "machine",
+#             "Public": true,
+#             "OwnerId": "137112412989",
+#             "PlatformDetails": "Linux/UNIX",
+#             "UsageOperation": "RunInstances",
+#             "State": "available",
+#             "BlockDeviceMappings": [
+#                 {
+#                     "DeviceName": "/dev/xvda",
+#                     "Ebs": {
+#                         "DeleteOnTermination": true,
+#                         "Iops": 3000,
+#                         "SnapshotId": "snap-0fc9d6b92707fe1b2",
+#                         "VolumeSize": 8,
+#                         "VolumeType": "gp3",
+#                         "Throughput": 125,
+#                         "Encrypted": false
+#                     }
+#                 }
+#             ],
+#             "Description": "Amazon Linux 2023 AMI 2023.3.20240219.0 x86_64 HVM kernel-6.1",
+#             "EnaSupport": true,
+#             "Hypervisor": "xen",
+#             "ImageOwnerAlias": "amazon",
+#             "Name": "al2023-ami-2023.3.20240219.0-kernel-6.1-x86_64",
+#             "RootDeviceName": "/dev/xvda",
+#             "RootDeviceType": "ebs",
+#             "SriovNetSupport": "simple",
+#             "VirtualizationType": "hvm",
+#             "BootMode": "uefi-preferred",
+#             "DeprecationTime": "2024-05-16T21:30:00.000Z",
+#             "ImdsSupport": "v2.0"
+#         },
 def get_amazon_linux_ami():
+    """
+    This is a helper function to get the latest Amazon Linux AMI it will return the AMI ID.
+    """
     try:
         logger.info("Getting Amazon Linux AMI...")
-        return "ami-0440d3b780d96b29d"
+        response = ec2_client.describe_images(
+            Owners=["amazon"],
+            Filters=[
+                {"Name": "name", "Values": ["al2023-ami-2023.*.*-kernel-6.1-x86_64"]},
+                {"Name": "architecture", "Values": ["x86_64"]},
+                {"Name": "image-type", "Values": ["machine"]},
+                {"Name": "state", "Values": ["available"]},
+                {"Name": "root-device-type", "Values": ["ebs"]},
+                {"Name": "virtualization-type", "Values": ["hvm"]},
+                {"Name": "hypervisor", "Values": ["xen"]},
+                {"Name": "ena-support", "Values": ["true"]},
+                {"Name": "sriov-net-support", "Values": ["simple"]},
+                {"Name": "boot-mode", "Values": ["uefi-preferred"]},
+            ],
+        )
+        # Sort the images by the creation date and get the most recent one had to use Github Copilot to get this fully work.
+        amis = sorted(response["Images"], key=lambda x: x["CreationDate"], reverse=True)
+        if amis:
+            latestAmi = amis[0]  # The most recent AMI
+            print(f"Specific Amazon Linux AMI ID found: {latestAmi['ImageId']}")
+            return latestAmi["ImageId"]
+        else:
+            print("No Amazon Linux AMI found.")
+            raise Exception("No specific Amazon Linux AMI found.")
     except Exception as e:
         logger.error(f"Failed to get Amazon Linux AMI: {e}")
         raise e
